@@ -79,6 +79,7 @@ void SetCommonFieldVariables(const FieldDescriptor* descriptor,
   (*variables)["field_number"] = SimpleItoa(descriptor->number());
   (*variables)["field_type"] = GetCapitalizedType(descriptor);
   (*variables)["deprecated_attribute"] = GetOptionalDeprecatedAttribute(descriptor);
+  (*variables)["ns_refined_for_swift"] = GetRefinedForSwift(descriptor);
   std::vector<string> field_flags;
   if (descriptor->is_repeated()) field_flags.push_back("GPBFieldRepeated");
   if (descriptor->is_required()) field_flags.push_back("GPBFieldRequired");
@@ -267,7 +268,7 @@ void SingleFieldGenerator::GeneratePropertyDeclaration(
   printer->Print(variables_, "$comments$");
   printer->Print(
       variables_,
-      "@property(nonatomic, readwrite) $property_type$ $name$$deprecated_attribute$;\n"
+      "@property(nonatomic, readwrite) $property_type$ $name$$deprecated_attribute$$ns_refined_for_swift$;\n"
       "\n");
   if (WantsHasProperty()) {
     printer->Print(
@@ -331,7 +332,7 @@ void ObjCObjFieldGenerator::GeneratePropertyDeclaration(
   printer->Print(variables_, "$comments$");
   printer->Print(
       variables_,
-      "@property(nonatomic, readwrite, $property_storage_attribute$, null_resettable) $property_type$ *$name$$storage_attribute$$deprecated_attribute$;\n");
+      "@property(nonatomic, readwrite, $property_storage_attribute$, null_resettable) $property_type$ *$name$$storage_attribute$$deprecated_attribute$$ns_refined_for_swift$;\n");
   if (WantsHasProperty()) {
     printer->Print(
         variables_,
@@ -386,7 +387,7 @@ void RepeatedFieldGenerator::GeneratePropertyDeclaration(
       variables_,
       "$comments$"
       "$array_comment$"
-      "@property(nonatomic, readwrite, strong, null_resettable) $array_property_type$ *$name$$storage_attribute$$deprecated_attribute$;\n"
+      "@property(nonatomic, readwrite, strong, null_resettable) $array_property_type$ *$name$$storage_attribute$$deprecated_attribute$$ns_refined_for_swift$;\n"
       "/** The number of items in @c $name$ without causing the array to be created. */\n"
       "@property(nonatomic, readonly) NSUInteger $name$_Count$deprecated_attribute$;\n");
   if (IsInitName(variables_.find("name")->second)) {

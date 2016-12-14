@@ -129,6 +129,9 @@ inline bool IsMapEntryMessage(const Descriptor* descriptor) {
 // Reverse of the above.
 string UnCamelCaseFieldName(const string& name, const FieldDescriptor* field);
 
+// Given NS_REFINED_FOR_SWIFT
+string GetRefinedForSwift(const FieldDescriptor* field);
+
 enum ObjectiveCType {
   OBJECTIVECTYPE_INT32,
   OBJECTIVECTYPE_UINT32,

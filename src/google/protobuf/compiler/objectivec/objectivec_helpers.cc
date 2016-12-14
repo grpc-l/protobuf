@@ -562,6 +562,28 @@ string UnCamelCaseFieldName(const string& name, const FieldDescriptor* field) {
   }
 }
 
+string GetRefinedForSwift(const FieldDescriptor* field) {
+  const string result = " NS_REFINED_FOR_SWIFT";
+  if (field->is_map()) {
+    return result;
+  }
+  if (field->is_repeated()) {
+    if ((field->type() == FieldDescriptor::TYPE_STRING) || (field->type() == FieldDescriptor::TYPE_MESSAGE)) {
+      return result;
+    }
+  }
+  switch (field->type()) {
+    case FieldDescriptor::TYPE_INT32:
+    case FieldDescriptor::TYPE_UINT32:
+    case FieldDescriptor::TYPE_SINT32:
+    case FieldDescriptor::TYPE_FIXED32:
+    case FieldDescriptor::TYPE_SFIXED32:
+      return result;
+    default:
+      return "";
+  }
+}
+
 string GetCapitalizedType(const FieldDescriptor* field) {
   switch (field->type()) {
     case FieldDescriptor::TYPE_INT32:
